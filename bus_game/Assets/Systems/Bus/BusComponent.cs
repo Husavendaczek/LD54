@@ -9,5 +9,6 @@ namespace Systems.Bus
         public ReactiveProperty<BusState> State { get; set; } = new(BusState.ComingIn);
         public BusPositionsComponent Positions { get; set; }
         public Rigidbody2D Body { get; set; }
+        public GameObject doorCollider;
     }
 }
