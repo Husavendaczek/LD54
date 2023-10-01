@@ -28,6 +28,11 @@ namespace Systems.Pupil
                 .Where(collision => collision.gameObject.CompareTag("pupil"))
                 .Subscribe(coll => PushOther(component, coll))
                 .AddTo(component);
+            
+            Observable.Timer(TimeSpan.FromSeconds(45))
+                .Where(_ => component.State == PupilState.Outside)
+                .Subscribe(_ => Object.Destroy(component.gameObject))
+                .AddTo(component);
         }
 
         private static void PushOther(Component me, Collision2D other)
