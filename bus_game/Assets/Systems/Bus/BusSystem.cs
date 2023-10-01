@@ -83,6 +83,8 @@ namespace Systems.Bus
 
         private void OpenDoors(BusComponent component)
         {
+            var animation = component.GetComponentInChildren<Animator>();
+            animation.Play("bus_close_door");
             Observable.Timer(TimeSpan.FromMilliseconds(500))
                 .Subscribe(_ =>
                 {
