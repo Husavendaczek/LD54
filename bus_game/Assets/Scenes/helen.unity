@@ -586,18 +586,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 279692068119600318, guid: 72f39b14d00e43d49928f940628bf64f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4878492540629986042, guid: 72f39b14d00e43d49928f940628bf64f, type: 3}
       propertyPath: m_Name
       value: pupil
       objectReference: {fileID: 0}
-    - target: {fileID: 6661361522280612147, guid: 72f39b14d00e43d49928f940628bf64f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 56606caaf995bc9488fa3323c5d7c372, type: 3}
     - target: {fileID: 6757113214191342807, guid: 72f39b14d00e43d49928f940628bf64f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
