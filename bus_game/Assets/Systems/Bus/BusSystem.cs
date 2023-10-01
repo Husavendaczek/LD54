@@ -1,6 +1,5 @@
 ﻿using System;
 using SystemBase.Core.GameSystems;
-using SystemBase.Core.StateMachineBase;
 using SystemBase.GameState.States;
 using SystemBase.Utils;
 using Systems.Bus.Events;
@@ -17,7 +16,7 @@ namespace Systems.Bus
         public override void Register(BusComponent component)
         {
             component.Body = component.GetComponent<Rigidbody2D>();
-            
+
             component.State.Where(s => s is BusState.Despawn)
                 .Subscribe(_ => MessageBroker.Default.Publish(new BusDespawnedEvent()))
                 .AddTo(component);
@@ -36,7 +35,35 @@ namespace Systems.Bus
                 .Where(s => s is BusState.StoppedOpen)
                 .Subscribe(_ => WaitForClose(component))
                 .AddTo(component);
-            
+
+            component.State
+                .Where(s => s is BusState.StoppedClosed)
+                .Subscribe(_ => Observable.Timer(TimeSpan.FromMilliseconds(500)).Subscribe(_ => component.State.Value = BusState.DrivingAway))
+                .AddTo(component);
+
+            SystemFixedUpdate(component)
+                .Where(bus => bus.State.Value is BusState.DrivingAway)
+                .Subscribe(MoveAway)
+                .AddTo(component);
+        }
+
+        private void MoveAway(BusComponent component)
+        {
+            var target = component.Positions.end;
+            var roadLeft = (float3)(target.transform.position - component.transform.position);
+            component.Body.velocity = roadLeft.xy * 2f;
+
+            if (component.transform.position.y > target.transform.position.y-0.5f)
+            {
+                component.State.Value += 1;
+                component.Body.velocity = Vector2.zero;
+
+                var spawner = component.Positions;
+                Object.Destroy(component.gameObject);
+                
+                SpawnBus(spawner);
+                MessageBroker.Default.Publish(new BusDespawnedEvent());
+            }
         }
 
         private static void WaitForClose(BusComponent component)
@@ -45,12 +72,11 @@ namespace Systems.Bus
                 .Subscribe(c =>
                 {
                     if (!Input.GetKeyDown(KeyCode.Space)) return;
-                    
+
                     MessageBroker.Default.Publish(new BusDoorClosedEvent());
                     c.State.Value = BusState.StoppedClosed;
                 })
                 .AddTo(component);
-
         }
 
         private void OpenDoors(BusComponent component)
@@ -68,10 +94,10 @@ namespace Systems.Bus
         {
             var target = component.Positions.stop;
             var roadLeft = (float3)(target.transform.position - component.transform.position);
-            component.Body.velocity = roadLeft.xy * 10f;
+            component.Body.velocity = roadLeft.xy * 2f;
 
             if (math.length(roadLeft) > 0.5f) return;
-            
+
             component.State.Value += 1;
             component.Body.velocity = Vector2.zero;
         }
@@ -91,13 +117,14 @@ namespace Systems.Bus
 
         private static void SpawnBus(BusPositionsComponent component)
         {
-            var busObject = Object.Instantiate(component.busPrefab, component.start.transform.position, Quaternion.identity);
+            var busObject = Object.Instantiate(component.busPrefab, component.start.transform.position,
+                Quaternion.identity);
             var bus = busObject.GetComponent<BusComponent>();
             bus.Positions = component;
         }
     }
 
-    public enum BusState : int
+    public enum BusState
     {
         ComingIn,
         Stopped,

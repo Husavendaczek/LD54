@@ -15,7 +15,6 @@ namespace Systems.Pupil
         public override void Register(PupilComponent component)
         {
             component.CurrentTarget = GameObject.Find("bus_target");
-            Debug.Log(component.CurrentTarget);
             component.rigidbody2D = component.GetComponent<Rigidbody2D>();
 
             SystemFixedUpdate(component).Where(pupil => pupil.CurrentTarget)
@@ -83,6 +82,29 @@ namespace Systems.Pupil
                 .AddTo(component);
             MessageBroker.Default.Receive<BusDoorClosedEvent>().Subscribe(_ => component.IsSpawning = false)
                 .AddTo(component);
+
+            MessageBroker.Default.Receive<BusDespawnedEvent>()
+                .Subscribe(_ => ResetPupils(component))
+                .AddTo(component);
+        }
+
+        private static void ResetPupils(Component component)
+        {
+            foreach (Transform child in component.transform)
+            {
+                var pupil = child.GetComponent<PupilComponent>();
+                switch (pupil.State)
+                {
+                    case PupilState.Inside:
+                        Object.Destroy(child.gameObject);
+                        break;
+                    case PupilState.Outside:
+                        pupil.CurrentTarget = GameObject.Find("bus_target");
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         private void SpawnPupil(PupilSpawnerComponent component)
