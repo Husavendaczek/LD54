@@ -7,5 +7,6 @@ namespace Systems.Pupil
     {
         public PupilState State { get; set; } = PupilState.Outside;
         public GameObject CurrentTarget { get; set; }
+        public Rigidbody2D rigidbody2D;
     }
 }
