@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 8309056910230977537}
   - component: {fileID: 8015487789464365274}
   - component: {fileID: 7570652116322393806}
+  - component: {fileID: 2332674413221321250}
   - component: {fileID: 3627511986323576231}
   m_Layer: 0
   m_Name: bus
@@ -379,7 +380,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5544293101671439477}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

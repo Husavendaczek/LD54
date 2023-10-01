@@ -7,6 +7,7 @@ namespace Systems.Pupil
     {
         public GameObject pupilPrefab;
         public float spawnSpeed = 10f;
+        public bool IsSpawning { get; set; } = false;
 
         public Sprite[] sprites;
     }

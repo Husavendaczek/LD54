@@ -1,7 +1,11 @@
+using System;
 using SystemBase.Core.GameSystems;
+using Systems.Bus.Events;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Systems.Pupil
 {
@@ -23,7 +27,6 @@ namespace Systems.Pupil
                 .Where(collision => collision.gameObject.CompareTag("pupil"))
                 .Subscribe(coll => PushOther(component, coll))
                 .AddTo(component);
-
         }
 
         private static void PushOther(Component me, Collision2D other)
@@ -34,19 +37,18 @@ namespace Systems.Pupil
 
         private void Animate(PupilComponent pupil)
         {
-
             if (TargetReached(pupil))
             {
                 var vel = pupil.rigidbody2D.velocity;
                 var angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
                 var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle + 90f));
-                pupil.sprite.transform.rotation = Quaternion.RotateTowards(pupil.transform.rotation, targetRotation, 360);
+                pupil.sprite.transform.rotation =
+                    Quaternion.RotateTowards(pupil.transform.rotation, targetRotation, 360);
 
                 pupil.State = PupilState.Inside;
                 pupil.CurrentTarget = null;
                 pupil.rigidbody2D.velocity = Vector2.zero;
                 pupil.rigidbody2D.gravityScale = 1f;
-
             }
             else
             {
@@ -54,16 +56,15 @@ namespace Systems.Pupil
 
                 var angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
                 var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle + 90f));
-                pupil.sprite.transform.rotation = Quaternion.RotateTowards(pupil.transform.rotation, targetRotation, 360);
-                
+                pupil.sprite.transform.rotation =
+                    Quaternion.RotateTowards(pupil.transform.rotation, targetRotation, 360);
+
                 pupil.rigidbody2D.AddForce(targetDirection.normalized * pupil.speed);
-                if(pupil.rigidbody2D.velocity.magnitude > pupil.speed)
+                if (pupil.rigidbody2D.velocity.magnitude > pupil.speed)
                     pupil.rigidbody2D.velocity = pupil.rigidbody2D.velocity.normalized * pupil.speed;
 
                 pupil.rigidbody2D.AddForce(targetDirection.normalized * 5f);
             }
-
-
         }
 
         private bool TargetReached(PupilComponent component)
@@ -73,15 +74,23 @@ namespace Systems.Pupil
 
         public override void Register(PupilSpawnerComponent component)
         {
-            Observable.Interval(System.TimeSpan.FromSeconds(1f / component.spawnSpeed))
+            Observable.Interval(TimeSpan.FromSeconds(1f / component.spawnSpeed))
+                .Where(_ => component.IsSpawning)
                 .Subscribe(_ => SpawnPupil(component))
+                .AddTo(component);
+
+            MessageBroker.Default.Receive<BusDoorOpenedEvent>().Subscribe(_ => component.IsSpawning = true)
+                .AddTo(component);
+            MessageBroker.Default.Receive<BusDoorClosedEvent>().Subscribe(_ => component.IsSpawning = false)
                 .AddTo(component);
         }
 
         private void SpawnPupil(PupilSpawnerComponent component)
         {
-            var pupil = Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity, component.transform);
-            pupil.GetComponentInChildren<SpriteRenderer>().sprite = component.sprites[Random.Range(0, component.sprites.Length-1)];
+            var pupil = Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity,
+                component.transform);
+            pupil.GetComponentInChildren<SpriteRenderer>().sprite =
+                component.sprites[Random.Range(0, component.sprites.Length - 1)];
         }
     }
 
