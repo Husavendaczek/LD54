@@ -25,7 +25,7 @@ namespace Systems.Bus
         private void DriveToStop(BusComponent component)
         {
             var target = component.Positions.stop;
-            var step = Vector3.Lerp(component.transform.position, target.transform.position, 0.2f);
+            var step = Vector3.Lerp(component.transform.position, target.transform.position, 0.8f);
             component.transform.position += step;
         }
 

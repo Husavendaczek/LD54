@@ -46,3 +46,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pupilPrefab: {fileID: 4878492540629986042, guid: 72f39b14d00e43d49928f940628bf64f, type: 3}
   spawnSpeed: 5
+  sprites:
+  - {fileID: 21300000, guid: 5a5c7b73d51bc0b4aa88baf644eb0e1c, type: 3}
+  - {fileID: 21300000, guid: 0ee79c12658a8c04ebcab6291e416b68, type: 3}
+  - {fileID: 21300000, guid: 3f5cdfe206496474380729ca1023f9e2, type: 3}
+  - {fileID: 21300000, guid: 1af169356c7df444d809bb05ed8d8a63, type: 3}
+  - {fileID: 21300000, guid: 56606caaf995bc9488fa3323c5d7c372, type: 3}
+  - {fileID: 21300000, guid: cd0bb4a67c5670a42aaf49c44bc4c4f4, type: 3}
+  - {fileID: 21300000, guid: 382a5df36c5a8c54ebfd249af124a790, type: 3}
+  - {fileID: 21300000, guid: 29bd14809ec2b70438bdeb4614d01079, type: 3}
+  - {fileID: 21300000, guid: e03f19c2518ca6947800a482a7c02641, type: 3}
+  - {fileID: 21300000, guid: 43f5690ad6a1ffb45b31bfecc4db9f3a, type: 3}
+  - {fileID: 21300000, guid: 662d7c38072d0ee4aa3b33131c691231, type: 3}
+  - {fileID: 21300000, guid: dd05638ec2068b34b99c7456cf2ee59d, type: 3}
+  - {fileID: 21300000, guid: b59c3e594d6008940b0fe2839f9caaa0, type: 3}
+  - {fileID: 21300000, guid: c5423c039c6a25b44a0b3e71da42a08c, type: 3}
+  - {fileID: 21300000, guid: 452ba44393377074baa88b3a49bdda7f, type: 3}
+  - {fileID: 21300000, guid: d45182b7ab852b349889d06f6d30b8fe, type: 3}
