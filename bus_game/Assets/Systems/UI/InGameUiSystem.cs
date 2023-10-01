@@ -1,6 +1,8 @@
 ﻿using SystemBase.Core.GameSystems;
+using Systems.Bus.Events;
 using Systems.Score;
 using UniRx;
+using UnityEngine;
 
 namespace Systems.UI
 {
@@ -16,6 +18,9 @@ namespace Systems.UI
             ScoreBoard.Passengers
                 .Subscribe(i => UpdatePassengers(i, component))
                 .AddTo(component);
+
+            MessageBroker.Default.Receive<BusDoorCloseEvent>().Subscribe(_ => AnimateCloseButton(component))
+                .AddTo(component);
         }
 
         private void UpdatePassengers(int i, UiComponent uiComponent)
@@ -26,6 +31,12 @@ namespace Systems.UI
         private void UpdateTarget(int i, UiComponent uiComponent)
         {
             uiComponent.targetNumber.text = i.ToString();
+        }
+
+        private void AnimateCloseButton(UiComponent uiComponent)
+        {
+            var animation = uiComponent.GetComponentInChildren<Animator>();
+            animation.Play("close_button");
         }
     }
 }
