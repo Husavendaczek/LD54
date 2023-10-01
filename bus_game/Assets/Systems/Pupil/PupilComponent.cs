@@ -9,5 +9,6 @@ namespace Systems.Pupil
         public GameObject CurrentTarget { get; set; }
         public Rigidbody2D rigidbody2D;
         public GameObject sprite;
+        public float speed;
     }
 }

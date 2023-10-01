@@ -1,6 +1,4 @@
 ﻿using SystemBase.Core.GameSystems;
-using SystemBase.Core.StateMachineBase;
-using SystemBase.Utils;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -28,7 +26,7 @@ namespace Systems.Pupil
 
         }
 
-        private void PushOther(PupilComponent me, Collision2D other)
+        private static void PushOther(Component me, Collision2D other)
         {
             other.gameObject.GetComponent<Rigidbody2D>()
                 .AddForce((other.transform.position - me.transform.position).normalized * 200f);
@@ -58,7 +56,9 @@ namespace Systems.Pupil
                 var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle + 90f));
                 pupil.sprite.transform.rotation = Quaternion.RotateTowards(pupil.transform.rotation, targetRotation, 360);
                 
-                pupil.rigidbody2D.AddForce(targetDirection.normalized * 5f);
+                pupil.rigidbody2D.AddForce(targetDirection.normalized * pupil.speed);
+                if(pupil.rigidbody2D.velocity.magnitude > pupil.speed)
+                    pupil.rigidbody2D.velocity = pupil.rigidbody2D.velocity.normalized * pupil.speed;
             }
             
             
