@@ -102,9 +102,9 @@ namespace Systems.Pupil
             }
         }
 
-        private void SpawnPupil(PupilSpawnerComponent component)
+        private static void SpawnPupil(PupilSpawnerComponent component)
         {
-            if(component.transform.childCount > 1000) return;
+            if(component.transform.childCount > ScoreBoard.MaximumSpawnedPassengers) return;
             
             var pupil = Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity,
                 component.transform);
@@ -118,7 +118,7 @@ namespace Systems.Pupil
             foreach (var pupil in pupils)
             {
                 var pupilComponent = pupil.GetComponent<PupilComponent>();
-                pupilComponent.CurrentTarget = component.gameObject;
+                pupilComponent.CurrentTarget = component.targetForPupils;
                 pupilComponent.State = PupilState.Outside;
                 pupilComponent.rigidbody2D.gravityScale = 0f;
             }

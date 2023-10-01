@@ -10,5 +10,6 @@ namespace Systems.Bus
         public BusPositionsComponent Positions { get; set; }
         public Rigidbody2D Body { get; set; }
         public GameObject doorCollider;
+        public GameObject targetForPupils;
     }
 }

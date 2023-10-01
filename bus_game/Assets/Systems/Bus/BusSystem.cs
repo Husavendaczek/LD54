@@ -142,6 +142,7 @@ namespace Systems.Bus
             bus.Positions = component;
             
             ScoreBoard.SetTargetPassengers(Random.Range(2, ScoreBoard.MaximumPassengers-10));
+            ScoreBoard.ResetCurrent();
         }
     }
 
