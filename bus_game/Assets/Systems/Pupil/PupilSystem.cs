@@ -2,6 +2,7 @@ using System;
 using SystemBase.Core.GameSystems;
 using Systems.Bus;
 using Systems.Bus.Events;
+using Systems.Score;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -49,6 +50,8 @@ namespace Systems.Pupil
                 pupil.CurrentTarget = null;
                 pupil.rigidbody2D.velocity = Vector2.zero;
                 pupil.rigidbody2D.gravityScale = 1f;
+                
+                ScoreBoard.AddPassenger();
             }
             else
             {

@@ -3,10 +3,12 @@ using SystemBase.Core.GameSystems;
 using SystemBase.GameState.States;
 using SystemBase.Utils;
 using Systems.Bus.Events;
+using Systems.Score;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Systems.Bus
 {
@@ -130,6 +132,8 @@ namespace Systems.Bus
                 Quaternion.identity);
             var bus = busObject.GetComponent<BusComponent>();
             bus.Positions = component;
+            
+            ScoreBoard.SetTargetPassengers(Random.Range(2, ScoreBoard.MaximumPassengers-10));
         }
     }
 
