@@ -101,6 +101,8 @@ namespace Systems.Pupil
 
         private void SpawnPupil(PupilSpawnerComponent component)
         {
+            if(component.transform.childCount > 1000) return;
+            
             var pupil = Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity,
                 component.transform);
             pupil.GetComponentInChildren<SpriteRenderer>().sprite =

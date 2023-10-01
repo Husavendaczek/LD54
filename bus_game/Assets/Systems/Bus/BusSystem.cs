@@ -68,6 +68,7 @@ namespace Systems.Bus
 
         private static void WaitForClose(BusComponent component)
         {
+            component.doorCollider.SetActive(false);
             SystemUpdate(component)
                 .Subscribe(c =>
                 {
@@ -75,6 +76,7 @@ namespace Systems.Bus
 
                     MessageBroker.Default.Publish(new BusDoorClosedEvent());
                     c.State.Value = BusState.StoppedClosed;
+                    component.doorCollider.SetActive(true);
                 })
                 .AddTo(component);
         }
