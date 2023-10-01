@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6358486268608057695}
   m_Layer: 0
   m_Name: pupil
-  m_TagString: Untagged
+  m_TagString: pupil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody2D: {fileID: 0}
+  sprite: {fileID: 4955316963869453323}
 --- !u!50 &4110943933628741088
 Rigidbody2D:
   serializedVersion: 4
