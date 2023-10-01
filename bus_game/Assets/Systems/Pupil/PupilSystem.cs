@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Systems.Pupil
 {
     [GameSystem]
-    public class PupilSystem : GameSystem<PupilComponent>
+    public class PupilSystem : GameSystem<PupilComponent, PupilSpawnerComponent>
     {
         public override void Register(PupilComponent component)
         {
@@ -67,6 +67,18 @@ namespace Systems.Pupil
         private bool TargetReached(PupilComponent component)
         {
             return (component.CurrentTarget.transform.position - component.transform.position).magnitude < 1f;
+        }
+
+        public override void Register(PupilSpawnerComponent component)
+        {
+            Observable.Interval(System.TimeSpan.FromSeconds(1f / component.spawnSpeed))
+                .Subscribe(_ => SpawnPupil(component))
+                .AddTo(component);
+        }
+
+        private void SpawnPupil(PupilSpawnerComponent component)
+        {
+            Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity, component.transform);
         }
     }
 

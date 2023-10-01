@@ -52,7 +52,6 @@ namespace SystemBase.Core.GameSystems
     public abstract class GameSystem<TComponent1, TComponent2>
         : GameSystem<TComponent1>
         where TComponent1 : GameComponent
-        where TComponent2 : GameComponent
     {
         public override Type[] ComponentsToRegister => new[] { typeof(TComponent1), typeof(TComponent2) };
 
