@@ -1,5 +1,6 @@
 using System;
 using SystemBase.Core.GameSystems;
+using Systems.Bus;
 using Systems.Bus.Events;
 using UniRx;
 using UniRx.Triggers;
@@ -10,7 +11,7 @@ using Random = UnityEngine.Random;
 namespace Systems.Pupil
 {
     [GameSystem]
-    public class PupilSystem : GameSystem<PupilComponent, PupilSpawnerComponent>
+    public class PupilSystem : GameSystem<PupilComponent, PupilSpawnerComponent, BusComponent>
     {
         public override void Register(PupilComponent component)
         {
@@ -93,17 +94,8 @@ namespace Systems.Pupil
             foreach (Transform child in component.transform)
             {
                 var pupil = child.GetComponent<PupilComponent>();
-                switch (pupil.State)
-                {
-                    case PupilState.Inside:
-                        Object.Destroy(child.gameObject);
-                        break;
-                    case PupilState.Outside:
-                        pupil.CurrentTarget = GameObject.Find("bus_target");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                if (pupil.State == PupilState.Inside)
+                    Object.Destroy(child.gameObject);
             }
         }
 
@@ -113,6 +105,18 @@ namespace Systems.Pupil
                 component.transform);
             pupil.GetComponentInChildren<SpriteRenderer>().sprite =
                 component.sprites[Random.Range(0, component.sprites.Length - 1)];
+        }
+
+        public override void Register(BusComponent component)
+        {
+            var pupils = GameObject.FindGameObjectsWithTag("pupil");
+            foreach (var pupil in pupils)
+            {
+                var pupilComponent = pupil.GetComponent<PupilComponent>();
+                pupilComponent.CurrentTarget = component.gameObject;
+                pupilComponent.State = PupilState.Outside;
+                pupilComponent.rigidbody2D.gravityScale = 0f;
+            }
         }
     }
 

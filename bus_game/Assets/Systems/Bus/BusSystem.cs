@@ -53,7 +53,7 @@ namespace Systems.Bus
             var roadLeft = (float3)(target.transform.position - component.transform.position);
             component.Body.velocity = roadLeft.xy * 2f;
 
-            if (component.transform.position.y > target.transform.position.y-0.5f)
+            if (component.transform.position.y > target.transform.position.y - 0.5f)
             {
                 component.State.Value += 1;
                 component.Body.velocity = Vector2.zero;
@@ -107,10 +107,6 @@ namespace Systems.Bus
             IoC.Game.gameStateContext.CurrentState
                 .Where(state => state is Running)
                 .First()
-                .Subscribe(_ => SpawnBus(component))
-                .AddTo(component);
-
-            MessageBroker.Default.Receive<BusDespawnedEvent>()
                 .Subscribe(_ => SpawnBus(component))
                 .AddTo(component);
         }
