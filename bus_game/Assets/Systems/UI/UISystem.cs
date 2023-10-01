@@ -1,4 +1,6 @@
-﻿using Systems.Score;
+﻿using Systems.Bus.Events;
+using Systems.Score;
+using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +12,11 @@ namespace Assets.Systems.UI
         {
             ScoreBoard.Reset();
             SceneManager.LoadScene(1);
+        }
+
+        public void CloseDoors()
+        {
+            MessageBroker.Default.Publish(new BusDoorCloseEvent());
         }
     }
 }

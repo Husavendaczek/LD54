@@ -38,9 +38,12 @@ namespace Systems.Bus
                 .Subscribe(_ => WaitForClose(component))
                 .AddTo(component);
 
+            MessageBroker.Default.Receive<BusDoorCloseEvent>().Subscribe(_ => InputForCloseDoors(component))
+                .AddTo(component);
+
             component.State
                 .Where(s => s is BusState.StoppedClosed)
-                .Subscribe(_ => CloseDoor(component))
+                .Subscribe(_ => BeforeDrivingAway(component))
                 .AddTo(component);
 
             SystemFixedUpdate(component)
@@ -49,7 +52,7 @@ namespace Systems.Bus
                 .AddTo(component);
         }
 
-        private void CloseDoor(BusComponent component)
+        private void BeforeDrivingAway(BusComponent component)
         {
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_open_door");
@@ -84,11 +87,16 @@ namespace Systems.Bus
                 {
                     if (!Input.GetKeyDown(KeyCode.Space)) return;
 
-                    MessageBroker.Default.Publish(new BusDoorClosedEvent());
-                    c.State.Value = BusState.StoppedClosed;
-                    component.doorCollider.SetActive(true);
+                    InputForCloseDoors(c);
                 })
                 .AddTo(component);
+        }
+
+        private static void InputForCloseDoors(BusComponent component)
+        {
+            MessageBroker.Default.Publish(new BusDoorClosedEvent());
+            component.State.Value = BusState.StoppedClosed;
+            component.doorCollider.SetActive(true);
         }
 
         private void OpenDoors(BusComponent component)
