@@ -81,7 +81,7 @@ namespace Systems.Pupil
         private void SpawnPupil(PupilSpawnerComponent component)
         {
             var pupil = Object.Instantiate(component.pupilPrefab, component.transform.position, Quaternion.identity, component.transform);
-            pupil.GetComponentInChildren<SpriteRenderer>().sprite = component.sprites[Random.Range(0, component.sprites.Length)];
+            pupil.GetComponentInChildren<SpriteRenderer>().sprite = component.sprites[Random.Range(0, component.sprites.Length-1)];
         }
     }
 
