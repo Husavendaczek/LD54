@@ -23,6 +23,7 @@ namespace SystemBase
 
             MessageBroker.Default.Publish(new GameMsgFinishedLoading());
             Cursor.visible = true;
+            MessageBroker.Default.Publish(new GameMsgStart());
         }
 
         private void Start()
