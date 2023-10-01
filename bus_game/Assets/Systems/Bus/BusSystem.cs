@@ -38,13 +38,21 @@ namespace Systems.Bus
 
             component.State
                 .Where(s => s is BusState.StoppedClosed)
-                .Subscribe(_ => Observable.Timer(TimeSpan.FromMilliseconds(500)).Subscribe(_ => component.State.Value = BusState.DrivingAway))
+                .Subscribe(_ => CloseDoor(component))
                 .AddTo(component);
 
             SystemFixedUpdate(component)
                 .Where(bus => bus.State.Value is BusState.DrivingAway)
                 .Subscribe(MoveAway)
                 .AddTo(component);
+        }
+
+        private void CloseDoor(BusComponent component)
+        {
+            var animation = component.GetComponentInChildren<Animator>();
+            animation.Play("bus_open_door");
+
+            Observable.Timer(TimeSpan.FromMilliseconds(500)).Subscribe(_ => component.State.Value = BusState.DrivingAway);
         }
 
         private void MoveAway(BusComponent component)
@@ -85,6 +93,7 @@ namespace Systems.Bus
         {
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_close_door");
+
             Observable.Timer(TimeSpan.FromMilliseconds(500))
                 .Subscribe(_ =>
                 {
