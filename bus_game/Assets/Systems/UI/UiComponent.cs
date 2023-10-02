@@ -1,5 +1,6 @@
 ﻿using SystemBase.Core.Components;
 using TMPro;
+using UnityEngine;
 
 namespace Systems.UI
 {
@@ -7,5 +8,8 @@ namespace Systems.UI
     {
         public TextMeshProUGUI targetNumber;
         public TextMeshProUGUI currentNumber;
+        public GameObject targetPanel;
+        public GameObject score;
+        public TextMeshProUGUI targetNumberInScore;
     }
 }

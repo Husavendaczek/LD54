@@ -11,6 +11,8 @@ namespace Systems.UI
     {
         public override void Register(UiComponent component)
         {
+            ShowScore(component, false);
+
             ScoreBoard.TargetPassengers
                 .Subscribe(i => UpdateTarget(i, component))
                 .AddTo(component);
@@ -20,6 +22,9 @@ namespace Systems.UI
                 .AddTo(component);
 
             MessageBroker.Default.Receive<BusDoorCloseEvent>().Subscribe(_ => AnimateCloseButton(component))
+                .AddTo(component);
+
+            MessageBroker.Default.Receive<BusDespawnedEvent>().Subscribe(_ =>ShowScore(component, false))
                 .AddTo(component);
         }
 
@@ -37,6 +42,15 @@ namespace Systems.UI
         {
             var animation = uiComponent.GetComponentInChildren<Animator>();
             animation.Play("close_button");
+
+            ShowScore(uiComponent, true);
+        }
+
+        private void ShowScore(UiComponent uiComponent, bool show)
+        {
+            uiComponent.targetPanel.SetActive(!show);
+            uiComponent.score.SetActive(show);
+            uiComponent.targetNumberInScore.text = uiComponent.targetNumber.text;
         }
     }
 }
