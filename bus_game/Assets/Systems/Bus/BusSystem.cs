@@ -1,4 +1,5 @@
 ﻿using System;
+using SystemBase.CommonSystems.Audio;
 using SystemBase.Core.GameSystems;
 using SystemBase.GameState.States;
 using SystemBase.Utils;
@@ -54,6 +55,7 @@ namespace Systems.Bus
 
         private void BeforeDrivingAway(BusComponent component)
         {
+            "door_close".Play();
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_open_door");
 
@@ -101,6 +103,8 @@ namespace Systems.Bus
 
         private void OpenDoors(BusComponent component)
         {
+            "door_open".Play();
+
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_close_door");
 
