@@ -11,5 +11,6 @@ namespace Systems.UI
         public GameObject targetPanel;
         public GameObject score;
         public TextMeshProUGUI targetNumberInScore;
+        public TextMeshProUGUI scoreText;
     }
 }
