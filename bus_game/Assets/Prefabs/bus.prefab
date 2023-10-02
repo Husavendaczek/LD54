@@ -511,6 +511,9 @@ MonoBehaviour:
   - Name: door_open
     File: {fileID: 8300000, guid: 23af3165cb3d2034580a23229a5de44f, type: 3}
     Volume: 0.4
+  - Name: awesome
+    File: {fileID: 8300000, guid: 58ab61ffd7abd3b409798c4ad01d7e5a, type: 3}
+    Volume: 0.4
 --- !u!1 &6408939180537641867
 GameObject:
   m_ObjectHideFlags: 0

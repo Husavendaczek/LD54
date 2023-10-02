@@ -73,6 +73,8 @@ namespace Systems.UI
             if(value == 0)
             {
                 text = "Awesome! You're the best busdriver in town!";
+                MessageBroker.Default.Publish(new ShowAwesomenessEvent());
+
             } else if(value > tolerance)
             {
                 text = "Man, you left angry kids waiting - although you had empty seats!";

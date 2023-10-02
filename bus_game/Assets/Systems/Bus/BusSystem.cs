@@ -51,6 +51,9 @@ namespace Systems.Bus
                 .Where(bus => bus.State.Value is BusState.DrivingAway)
                 .Subscribe(MoveAway)
                 .AddTo(component);
+
+            MessageBroker.Default.Receive<ShowAwesomenessEvent>().Subscribe(_ => ShowAwesomeness())
+                .AddTo(component);
         }
 
         private void BeforeDrivingAway(BusComponent component)
@@ -147,6 +150,11 @@ namespace Systems.Bus
             
             ScoreBoard.SetTargetPassengers(Random.Range(2, ScoreBoard.MaximumPassengers-10));
             ScoreBoard.ResetCurrent();
+        }
+
+        private void ShowAwesomeness()
+        {
+            "awesome".Play();
         }
     }
 
