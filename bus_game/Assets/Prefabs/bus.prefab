@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc230bb4099941f49832cf1ca1a0ee31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxPitchChange: 0.25
+  MaxPitchChange: 0.031
   Sounds:
   - Name: door_close
     File: {fileID: 8300000, guid: c36f7994d1d013e4b905680b240cf8f7, type: 3}
@@ -513,6 +513,15 @@ MonoBehaviour:
     Volume: 0.4
   - Name: awesome
     File: {fileID: 8300000, guid: 58ab61ffd7abd3b409798c4ad01d7e5a, type: 3}
+    Volume: 0.4
+  - Name: come_on
+    File: {fileID: 8300000, guid: ed4d9e545f8a20d4fb91b08f49cf8377, type: 3}
+    Volume: 0.4
+  - Name: come_on2
+    File: {fileID: 8300000, guid: ef235d5ada15fa04bb41c73d765509b9, type: 3}
+    Volume: 0.4
+  - Name: full
+    File: {fileID: 8300000, guid: 624e1068847e8c541a9f8835bf8525d7, type: 3}
     Volume: 0.4
 --- !u!1 &6408939180537641867
 GameObject:

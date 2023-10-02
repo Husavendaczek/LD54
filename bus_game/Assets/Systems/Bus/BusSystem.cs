@@ -59,7 +59,7 @@ namespace Systems.Bus
         private void BeforeDrivingAway(BusComponent component)
         {
             "door_close".Play();
-            //TODO "full".Play();
+            "full".Play();
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_open_door");
 
@@ -108,7 +108,8 @@ namespace Systems.Bus
         private void OpenDoors(BusComponent component)
         {
             "door_open".Play();
-            //TODO "come_in".Play();
+            string[] comeOnIn = { "come_on", "come_on2" };
+            comeOnIn[Random.Range(0,1)].Play();
 
             var animation = component.GetComponentInChildren<Animator>();
             animation.Play("bus_close_door");
