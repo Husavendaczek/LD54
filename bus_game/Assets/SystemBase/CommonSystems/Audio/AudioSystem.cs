@@ -120,7 +120,12 @@ namespace SystemBase.CommonSystems.Audio
         {
             Observable
                 .Interval(TimeSpan.FromSeconds(1))
-                .TakeWhile(_ => source.isPlaying)
+                .TakeWhile(_ =>
+                {
+                    if (source != null)
+                        return source.isPlaying;
+                    return false;
+                })
                 .Subscribe(_ => { }, () => Object.Destroy(source));
         }
 
